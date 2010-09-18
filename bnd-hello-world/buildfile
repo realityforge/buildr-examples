@@ -1,0 +1,20 @@
+# Include the buildr-bnd extension
+gem 'buildr-bnd', :version => '= 0.0.5'
+require 'buildr_bnd'
+
+# The maven2 repository from which dependencies will be downloaded
+repositories.remote << 'http://www.ibiblio.org/maven2'
+
+desc 'Example: Hello World'
+define 'helloworld' do
+  project.version = "1.0.0"
+  project.group = "org.example"
+
+  # Compile the code with the following artifact
+  compile.with 'org.apache.felix:org.osgi.core:jar:1.4.0'
+
+  package(:bundle).tap do |bnd|
+    bnd['Private-Package'] = "org.example.helloworld"
+    bnd['Bundle-Activator'] = "org.example.helloworld.Activator"
+  end
+end
