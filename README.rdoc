@@ -1,0 +1,3 @@
+= Buildr examples
+
+This project contains a set of examples of buildr projects. 
