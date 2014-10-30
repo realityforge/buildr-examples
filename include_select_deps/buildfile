@@ -1,0 +1,18 @@
+repositories.remote << 'http://www.ibiblio.org/maven2'
+
+desc 'Example: Hello World'
+define 'helloworld' do
+  project.version = "1.0.0"
+  project.group = "org.example"
+
+  compile.with 'com.google.code.findbugs:jsr305:jar:3.0.0','com.google.code.findbugs:annotations:jar:3.0.0'
+
+  package(:jar)
+  package(:tgz).tap do |pkg|
+   pkg.path('lib').include package(:jar), compile.dependencies.select {|a| a.to_spec != 'com.google.code.findbugs:annotations:jar:3.0.0'}
+  end
+
+ check package(:tgz), "doesn't need the findbugs specific jar " do
+    it.should_not contain('lib/annotations-3.0.0.jar')
+  end
+end
