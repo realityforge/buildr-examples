@@ -9,7 +9,11 @@ define 'helloworld' do
 
   package(:jar)
   package(:tgz).tap do |pkg|
-   pkg.path('lib').include package(:jar), compile.dependencies.select {|a| !a.respond_to?(:to_spec) || a.to_spec != 'com.google.code.findbugs:annotations:jar:3.0.0'}
+    #pkg.path('lib').include package(:jar), compile.dependencies.select {|a| !a.respond_to?(:to_spec) || a.to_spec != 'com.google.code.findbugs:annotations:jar:3.0.0'}
+    # This approach works when dependencies are file deps
+    pkg.path('lib').include package(:jar),
+                            compile.dependencies.select {|a| !(a.to_s =~/annotations-3.0.0.jar$/)}
+
   end
 
  check package(:tgz), "doesn't need the findbugs specific jar " do
