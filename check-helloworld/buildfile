@@ -1,0 +1,11 @@
+desc 'Example: Hello World'
+define 'helloworld' do
+  project.version = "1.0.0"
+  project.group = "org.example"
+
+  package(:jar)
+	
+  check package(:jar), 'should contain generated class files' do
+    it.should contain('org/example/helloworld/Main.class')
+  end
+end
